@@ -68,3 +68,15 @@ indet_style = space // tab键用空格代替 而不是用制表符
 insert_final_newline = true // eslint要求文件最后一行需要添加空行，添加这句话会自动检测最后一行是否为空行，如果没有的话，保存的时候，自动添加一行空行
 trim_trailing_whitespace = true // 在写代码是 最后一行有空格 自动删除空格
 ```
+
+# webpack3.x ---> webpack4.x
+1. 删除webpack相关插件
+```
+npm uninstall webpack webpack-dev-server webpack-merge -D
+```
+
+2. 下载webpack相关插件
+```
+npm install webpack webpack-dev-server webpack-merge webpack-cli -D
+```
+> webpack 启动的部分脚本都是放在 webpack-cli
