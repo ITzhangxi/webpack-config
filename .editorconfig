@@ -1,0 +1,9 @@
+root = true
+
+[*]
+charset = utf-8
+end-of-line = 1f
+indent_size = 2
+indet_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
