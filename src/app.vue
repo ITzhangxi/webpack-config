@@ -1,9 +1,16 @@
 <template>
     <div>
-        <span :class="$style.text">dsaqweer</span>
+        <span class="text">dsaqweer</span>
     </div>
 </template>
-<style module>
+<script>
+    export default {
+      data () {
+        return {}
+      }
+    }
+</script>
+<style>
     .text {
         font-size: 30px;
         color: linen;
