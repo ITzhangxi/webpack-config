@@ -78,7 +78,7 @@ if (isDev) {
         },
         plugins: [
             // 通过插件extract-text-webpack-plugin 命名css输出路径和文件名称
-            new ExtractPlugin('css/styles .[contentHash:8].css'),
+            new ExtractPlugin('styles.[contentHash:8].css'),
             // 将内库代码单独打包 业务代码更新的时候，内库代码就不需要在刷新了，从而减少带宽资源浪费
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'vendor' // 这里需要和 config.entry 的 vendor名字一致

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <span class="text">dsaqweer</span>
+        <span :class="$style.text">dsaqweer</span>
     </div>
 </template>
-<style scoped>
-    .text{
+<style module>
+    .text {
         font-size: 30px;
         color: linen;
     }
