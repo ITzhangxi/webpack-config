@@ -1,0 +1,45 @@
+const path = require('path') // 这是node模块中 解决路径引用问题
+const VueLoaderPlugin = require('vue-loader/lib/plugin') // 处理vue-loader加载器的
+const HTMLPlugin = require('html-webpack-plugin') // 为html文件中引入的外部资源如 script、link 动态添加每次 compile 后的hash，防止引用缓存的外部文件问题
+let config = {
+    entry: path.join(__dirname, '../src/index.js'), // webpack 文件入口
+    output: {
+        filename: 'bundle.[hash:8].js', // 出口文件的名称 [hash:8] 代表将出口文件添加hash值，方式文件缓存
+        path: path.join(path.join(__dirname, 'dist')) // 出口文件的位置
+    },
+    module: {
+        // 配置加载器的规则
+        rules: [{
+            test: /\.vue$/,
+            loader: 'vue-loader'
+        }, {
+            test: /\.jsx$/,
+            loader: 'babel-loader'
+        }, {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+            ]
+        },
+            {
+                test: /\.(gif|jpg|jpeg|svg|png)$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 1024, // 当文件大于1024kb的时候 不将图片文件转换成base64
+                        name: 'images/[name].[hash:8].[ext]' // 将文件大于limit设置的大小的图片重新命名并且存放到 images 目录下 这个目录是相对于出口文件的路径来说的 [name]代表文件原来的名称 [hash:8]  添加hash值 8 位数 [ext] 扩展名
+                    }
+                }]
+            }
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin(),
+        new HTMLPlugin()
+    ]
+}
+module.exports = config
+
+
+// chunkhash 和 hash 的区别在于 hash打包的时候，所有的hash值一样，而chunkhash 没有生成的值都不一样
