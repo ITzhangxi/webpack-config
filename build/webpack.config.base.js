@@ -18,7 +18,7 @@ let config = {
         }, {
             test: /\.css$/,
             use: [
-                'style-loader',
+                'vue-style-loader', // 将style-loader换成vue-style-loader 主要是因为vue-style-loader可以处理vue内部css修改之后样式热更新
                 'css-loader'
             ]
         },

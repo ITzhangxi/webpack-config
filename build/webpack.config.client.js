@@ -26,7 +26,7 @@ if (isDev) {
                 {
                     test: /\.styl$/,
                     use: [
-                        'style-loader',
+                        'vue-style-loader',
                         'css-loader',
                         {
                             loader: 'postcss-loader', // 在具有兼容性的css前添加前缀
@@ -61,7 +61,7 @@ if (isDev) {
                     use: ExtractPlugin.extract({
                         // 单独将css打包成独立的文件
                         // 否则的话会将所有的 css 文件都打包到bundle.js文件中
-                        fallback: 'style-loader', // 编译后用什么 loader 来提取css文件
+                        fallback: 'vue-style-loader', // 编译后用什么 loader 来提取css文件
                         use: [
                             'css-loader', // 指需要什么样的loader去编译文件,这里由于源文件是 .css 所以选择 css-loader
                             {

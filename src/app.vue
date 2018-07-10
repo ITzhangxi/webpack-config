@@ -1,7 +1,13 @@
 <template>
     <div>
-        <span>dsaqweer</span>
+        <span class="text">dsaqweer</span>
     </div>
 </template>
+<style scoped>
+    .text{
+        font-size: 30px;
+        color: linen;
+    }
+</style>
 
 
