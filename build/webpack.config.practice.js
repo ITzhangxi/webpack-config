@@ -17,7 +17,9 @@ const definePlugin = [
       NODE_ENV: '"development"'
     }
   }),
-  new HTMLPlugin()
+  new HTMLPlugin({
+    template: path.join(__dirname, 'template.html')
+  })
 ]
 const config = merage(baseConfig, {
   entry: path.join(__dirname, '../practice/index.js'),
