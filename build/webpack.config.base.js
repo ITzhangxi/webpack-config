@@ -56,4 +56,5 @@ let config = {
 }
 module.exports = config
 
-// chunkhash 和 hash 的区别在于 hash打包的时候，所有的hash值一样，而chunkhash 没有生成的值都不一样
+// chunkhash 和 hash 的区别在于 hash打包的时候，所有的hash值一样，
+// 而chunkhash 没有生成的值都不一样

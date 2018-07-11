@@ -68,3 +68,15 @@ indet_style = space // tab键用空格代替 而不是用制表符
 insert_final_newline = true // eslint要求文件最后一行需要添加空行，添加这句话会自动检测最后一行是否为空行，如果没有的话，保存的时候，自动添加一行空行
 trim_trailing_whitespace = true // 在写代码是 最后一行有空格 自动删除空格
 ```
+
+# webpack 配置部分细节介绍
+1. 
+```js
+// 指定import Vue from 'vue' vue的路径 vue.esm.js可以在new Vue()中写入template模板
+// 不指定的话 默认开发环境使用的vue是vue.runtime.esm.js 它和vue.esm.js区别在于后者可以在new Vue()中写入template模板，前者不可以
+resolve: {
+ alias: {
+   'vue': path.join(__dirname, '../node_modules/vue/dist/vue.esm.js')
+ }
+},
+```

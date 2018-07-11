@@ -5,5 +5,8 @@
     "html"
   ],
   // 因为给予webpack开发的，代码都是经过babel处理过的，babel处理是方式对eslint语法不太支持，用loader处理eslint会出现一些问题，所以用这个"parser": "babel-eslint"
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "rules": {
+    "no-new": "off"
+  }
 }
