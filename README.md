@@ -93,3 +93,11 @@ trim_trailing_whitespace = true // 在写代码是 最后一行有空格 自动�
 }
 
 ```
+
+# concurrently 的使用解释
+```json
+{
+  // 切记 concurrently 后面执行的字符串 用\"转译成"
+  "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+}
+```
