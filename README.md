@@ -68,3 +68,28 @@ indet_style = space // tab键用空格代替 而不是用制表符
 insert_final_newline = true // eslint要求文件最后一行需要添加空行，添加这句话会自动检测最后一行是否为空行，如果没有的话，保存的时候，自动添加一行空行
 trim_trailing_whitespace = true // 在写代码是 最后一行有空格 自动删除空格
 ```
+
+# nodemon.json 项目文件更新是node自动执行
+```json
+{
+  "restartable": "rs",
+   // 忽略的文件  
+  "ingore": [
+    ".git",
+    ".idea",
+    "node_modules/**/node_modules",
+    ".eslintrc",
+    "build/webpack.config.client.js",
+    "public",
+    "server-build"
+  ],
+  "verbose": true,
+  // 传参 和package.json 中script中NODE_ENV="development"一样的作用  
+  "env": {
+    "NODE_ENV": "development"
+  },
+  // 监视带有这个的拓展名的文件  
+  "ext": "js json ejs"
+}
+
+```
