@@ -5,7 +5,7 @@ const ExtractPlugin = require('extract-text-webpack-plugin')
 const baseConfig = require('./webpack.config.base')
 const VueServerPlugin = require('vue-server-renderer/server-plugin') // vue服务器渲染所需要的插件
 
-let config = null
+let config
 
 const isDev = process.env.NODE_ENV === 'development'
 const plugins = [
@@ -21,16 +21,16 @@ if (isDev) {
 config = merage(baseConfig, {
   // 这个必须指定打包的环境是node环境 因为我们这个程序在node端运行
   target: 'node',
-  entry: path.join(__dirname, '../src/index.js'),
+  entry: path.join(__dirname, '../src/server-entry.js'),
+  devtool: 'source-map',
   output: {
     libraryTarget: 'commonjs2', // 指定模块打包系统
-    filename: '[name].js',
+    filename: 'server-entry.js',
     path: path.join(__dirname, '../server-build')
   },
   // 不要打包这些文件生产环境依赖为包
   externals: Object.keys(require('../package.json').dependencies),
   // vue有的service-render有个webpack插件，给我提供一个代码调试的功能 指引文件出错在具体行数
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -53,7 +53,6 @@ config = merage(baseConfig, {
   },
   plugins
 })
-
 module.exports = config
 
 // chunkhash 和 hash 的区别在于 hash打包的时候，所有的hash值一样，而chunkhash 没有生成的值都不一样

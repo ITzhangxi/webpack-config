@@ -1,16 +1,20 @@
 const path = require('path') // 这是node模块中 解决路径引用问题
+const HTMLPlugin = require('html-webpack-plugin')
 const merage = require('webpack-merge')
 const webpack = require('webpack')
 const ExtractPlugin = require('extract-text-webpack-plugin') // 抽离css样式
 const baseConfig = require('./webpack.config.base')
 const isDev = process.env.NODE_ENV === 'development' // 从package.json 中script中获取 NODE_ENV 参数来分辨开发模式或者生产环境
+const VueClientPlugin = require('vue-server-renderer/client-plugin') // 将客户端js打包出来  打包出来的文件是vue-ssr-client-manifest.json
 const devServer = {
   port: 8080,
   host: '127.0.0.1',
-  overlay: {
-    error: false
-  },
-  hot: true
+  overlay: false,
+  hot: true,
+  // 对于单页面程序，浏览器的brower histroy可以设置成html5 history api或者hash，而设置为html5 api的，如果刷新浏览器会出现404 not found，原因是它通过这个路径（比如： /activities/2/ques/2）来访问后台，所以会出现404，而把historyApiFallback设置为true那么所有的路径都执行index.html。
+  historyApiFallback: {
+    index: '/public/index.html'
+  }
 }
 
 let config = null
@@ -43,7 +47,19 @@ if (isDev) {
     plugins: [
       // 下面两个插件是用于热加载的
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: isDev ? '"development"' : '"production"'
+        }
+      }),
+      // 设置html模板 并且将js css自动引入到该模板中
+      new HTMLPlugin({
+        // 模板路径
+        template: path.join(__dirname, './template.html')
+      }),
+      // 将客户端js打包出来  打包出来的文件是vue-ssr-client-manifest.json
+      new VueClientPlugin()
     ]
   })
 } else {

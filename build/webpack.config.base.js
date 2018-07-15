@@ -6,7 +6,9 @@ let config = {
   entry: path.join(__dirname, '../src/index.js'), // webpack 文件入口
   output: {
     filename: 'bundle.[hash:8].js', // 出口文件的名称 [hash:8] 代表将出口文件添加hash值，方式文件缓存
-    path: path.join(__dirname, '../dist') // 出口文件的位置
+    path: path.join(__dirname, '../dist'), // 出口文件的位置
+    // 这里使用线上地址，解决服务端渲染引用webpack-dev-server今天资源问题
+    publicPath: 'http://127.0.0.1:8080/public/'
   },
   module: {
     // 配置加载器的规则

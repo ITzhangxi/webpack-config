@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js",
     "build": "npm run clean && npm run build:client",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
+    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
+    "dev:server": "cross-env NODE_ENV=development node server/server.js",
     "clean": "rimraf dist",
     "lint": "eslint --ext .js --ext .jsx --ext .vue src/",
     "link-fix": "eslint --fix --ext .js --ext .jsx --ext .vue src/",
@@ -51,7 +52,14 @@
     "webpack-merge": "^4.1.3"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "ejs": "^2.6.1",
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0",
+    "memory-fs": "^0.4.1",
     "vue": "^2.5.16",
+    "vue-meta": "^1.5.2",
+    "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.16"
   }
 }
