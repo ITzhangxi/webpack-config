@@ -11,6 +11,7 @@ export default context => {
       if (!matchedComponents.length) {
         return reject(new Error('no match component'))
       }
+      context.meta = app.$meta()
       resolve(app)
     })
   })
