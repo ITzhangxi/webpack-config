@@ -51,7 +51,6 @@ serverCompiler.watch({}, (err, stats) => {
 
 // koa的中间件 用来处理服务端渲染返回的东西 指定返回的HTML的内容
 const handleSSR = async (ctx) => {
-
   if (!bundle) {
     ctx.body = 'palease wait later'
     return
