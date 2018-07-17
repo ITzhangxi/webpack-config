@@ -7,6 +7,9 @@
 </template>
 <script>
   export default {
+    metaInfo: {
+      title: 'app'
+    },
     data () {
       return {}
     }
