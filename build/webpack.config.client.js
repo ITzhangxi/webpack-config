@@ -3,9 +3,9 @@ const HTMLPlugin = require('html-webpack-plugin')
 const merage = require('webpack-merge')
 const webpack = require('webpack')
 const ExtractPlugin = require('extract-text-webpack-plugin') // 抽离css样式
+const VueClientPlugin = require('vue-server-renderer/client-plugin') // 将客户端js打包出来  打包出来的文件是vue-ssr-client-manifest.json
 const baseConfig = require('./webpack.config.base')
 const isDev = process.env.NODE_ENV === 'development' // 从package.json 中script中获取 NODE_ENV 参数来分辨开发模式或者生产环境
-const VueClientPlugin = require('vue-server-renderer/client-plugin') // 将客户端js打包出来  打包出来的文件是vue-ssr-client-manifest.json
 const devServer = {
   port: 8080,
   host: '127.0.0.1',
@@ -16,7 +16,17 @@ const devServer = {
     index: '/public/index.html'
   }
 }
-
+const defaultPluins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: isDev ? '"development"' : '"production"'
+    }
+  }),
+  new HTMLPlugin({
+    template: path.join(__dirname, 'template.html')
+  }),
+  new VueClientPlugin()
+]
 let config = null
 
 // 根据生产环境和测试环境进行配置
@@ -44,23 +54,10 @@ if (isDev) {
         }
       ]
     },
-    plugins: [
-      // 下面两个插件是用于热加载的
+    plugins: defaultPluins.concat([
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: isDev ? '"development"' : '"production"'
-        }
-      }),
-      // 设置html模板 并且将js css自动引入到该模板中
-      new HTMLPlugin({
-        // 模板路径
-        template: path.join(__dirname, './template.html')
-      }),
-      // 将客户端js打包出来  打包出来的文件是vue-ssr-client-manifest.json
-      new VueClientPlugin()
-    ]
+      new webpack.NoEmitOnErrorsPlugin()
+    ])
   })
 } else {
   config = merage(baseConfig, {
@@ -69,7 +66,8 @@ if (isDev) {
       vendor: ['vue']
     },
     output: {
-      filename: '[name].[chunkhash:8].js'
+      filename: '[name].[chunkhash:8].js',
+      publicPath: '/public/'
     },
     module: {
       rules: [
@@ -93,24 +91,18 @@ if (isDev) {
         }
       ]
     },
-    plugins: [
-      // 通过插件extract-text-webpack-plugin 命名css输出路径和文件名称
+    plugins: defaultPluins.concat([
       new ExtractPlugin('styles.[contentHash:8].css'),
-      // 将内库代码单独打包 业务代码更新的时候，内库代码就不需要在刷新了，从而减少带宽资源浪费
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor' // 这里需要和 config.entry 的 vendor名字一致
+        name: 'vendor'
       }),
-      // 将webpack相关的代码单独打包到有个文件中
-      // 有点：有新的模块加入的时候，webpack 会将每个模块添加一个id上去，有新的模块假如的时候，它插入的顺序可能在中间，会导致后面没有模块的ide发生变化，发生变化之后，会导致每个模块的它hash会发生变化，那么想利用hash 长缓存的作用就失去意义了，下面这个插件就可以规避这个问题，
-      // 切记这个一定要放到上面这个的下面，否则就会失去意义
       new webpack.optimize.CommonsChunkPlugin({
-        // 这个名字是随便声明的，只要在安全内没有声明的任何一个名字，一般是runtime
         name: 'runtime'
-      })
-    ]
+      }),
+      new webpack.NamedChunksPlugin()
+    ])
   })
 }
-
 module.exports = config
 
 // chunkhash 和 hash 的区别在于 hash打包的时候，所有的hash值一样，而chunkhash 没有生成的值都不一样

@@ -1,12 +1,12 @@
 const path = require('path') // 这是node模块中 解决路径引用问题
 const VueLoaderPlugin = require('vue-loader/lib/plugin') // 处理vue-loader加载器的
-const HTMLPlugin = require('html-webpack-plugin') // 为html文件中引入的外部资源如 script、link 动态添加每次 compile 后的hash，防止引用缓存的外部文件问题
+// const HTMLPlugin = require('html-webpack-plugin') // 为html文件中引入的外部资源如 script、link 动态添加每次 compile 后的hash，防止引用缓存的外部文件问题
 // const createVueLoaderOptions = require('./vue-loader.config')
 let config = {
   entry: path.join(__dirname, '../src/client-entry.js'), // webpack 文件入口
   output: {
     filename: 'bundle.[hash:8].js', // 出口文件的名称 [hash:8] 代表将出口文件添加hash值，方式文件缓存
-    path: path.join(__dirname, '../dist'), // 出口文件的位置
+    path: path.join(__dirname, '../public'), // 出口文件的位置
     // 这里使用线上地址，解决服务端渲染引用webpack-dev-server今天资源问题
     publicPath: 'http://127.0.0.1:8080/public/'
   },
@@ -52,8 +52,8 @@ let config = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin(),
-    new HTMLPlugin()
+    new VueLoaderPlugin()
+    //   new HTMLPlugin()
   ]
 }
 module.exports = config

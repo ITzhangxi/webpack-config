@@ -7,7 +7,7 @@ const VueServerPlugin = require('vue-server-renderer/server-plugin') // vue服�
 
 let config
 
-const isDev = process.env.NODE_ENV === 'development'
+// const isDev = process.env.NODE_ENV === 'development'
 const plugins = [
   new ExtractPlugin('styles.[contentHash:8].css'),
   new webpack.DefinePlugin({
@@ -15,9 +15,7 @@ const plugins = [
     'process.env.VUE_ENV': '"server"'
   })
 ]
-if (isDev) {
-  plugins.push(new VueServerPlugin())
-}
+plugins.push(new VueServerPlugin())
 config = merage(baseConfig, {
   // 这个必须指定打包的环境是node环境 因为我们这个程序在node端运行
   target: 'node',
@@ -26,7 +24,9 @@ config = merage(baseConfig, {
   output: {
     libraryTarget: 'commonjs2', // 指定模块打包系统
     filename: 'server-entry.js',
-    path: path.join(__dirname, '../server-build')
+    path: path.join(__dirname, '../server-build'),
+    // 这里需要添加publicPath 必须和client端静态 publicPath 这样才能调起被单独打包出来的图片
+    publicPath: '/public/'
   },
   // 不要打包这些文件生产环境依赖为包
   externals: Object.keys(require('../package.json').dependencies),
