@@ -23,7 +23,9 @@ devDependencies = {
         "vue-template-compiler": "^2.5.16",
         "webpack": "3.10.0",
         "webpack-dev-server": "2.9.7",  // webpack启动本地服务
-        "webpack-merge": "^4.1.3"  // webpack配置合并
+        "webpack-merge": "^4.1.3",  // webpack配置合并
+         "babel-preset-env": "^1.7.0",  // 添加babel-preset-stage-1 转译未定稿的es6 es7 es8。。。语法 比如...
+
 }
 
 
