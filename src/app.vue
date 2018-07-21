@@ -1,6 +1,7 @@
 <template>
   <div>
         <span class="text">
+          {{num}}
           <router-view/>
         </span>
   </div>
@@ -11,7 +12,12 @@
       title: 'app'
     },
     data () {
-      return {}
+      return {
+        num: 0
+      }
+    },
+    mounted () {
+      this.num = this.$store.state.num
     }
   }
 </script>
