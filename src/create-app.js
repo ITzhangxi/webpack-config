@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import App from './app.vue'
 import createRouter from './router'
 import Meta from 'vue-meta'
+import Notification from './components/notification'
 
 import '../assets/styles/base.css'
 import '../assets/images/done.svg'
@@ -10,6 +11,7 @@ import '../assets/styles/base-stylus.styl'
 
 Vue.use(VueRouter)
 Vue.use(Meta)
+Vue.use(Notification)
 
 export default () => {
   const router = createRouter()

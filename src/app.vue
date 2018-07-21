@@ -1,8 +1,9 @@
 <template>
   <div>
-        <span class="text">
-          <router-view/>
-        </span>
+    <notification></notification>
+    <span class="text">
+      <router-view/>
+    </span>
   </div>
 </template>
 <script>
