@@ -1,7 +1,12 @@
 <template>
   <!-- 组件 -->
-  <transition name="fade">
-    <div class="notification" v-if="flag">
+  <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
+    <div
+      class="notification"
+      :style="style"
+      v-show="flag"
+      @mouseenter="clearTimer"
+      @mouseleave="setTimer">
       <span>{{content}}</span>
       <button class="btn" @click.prevent="closeTip">关闭</button>
     </div>
@@ -13,7 +18,7 @@
     name: 'notification',
     data () {
       return {
-        flag: true
+        flag: false
       }
     },
     props: {
@@ -22,10 +27,21 @@
         default: '温馨提示'
       }
     },
+    computed: {
+      style () {
+        return {}
+      }
+    },
     methods: {
       closeTip () {
-        this.flag = !this.flag
-      }
+        this.$emit('close')
+      },
+      afterLeave () {
+        this.$emit('closed')
+      },
+      afterEnter () {},
+      clearTimer () {},
+      setTimer () {}
     }
   }
 </script>
@@ -33,8 +49,8 @@
 <style scoped>
   .notification {
     position: fixed;
-    top: 50%;
-    left: 0;
+    /*top: 50%;*/
+    right: 20px;
     width: 250px;
     height: 50px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -61,10 +77,22 @@
   }
 
   .fade-enter-active, .fade-leave-active {
-    transition: transform .5s;
+    transition: all .5s;
   }
 
-  .fade-enter, .fade-leave-to {
-    transform: translate3d(-250px, 0, 0)
+  .fade-enter {
+    transform: translate3d(270px, 0, 0)
+  }
+
+  .fade-enter-to {
+    transform: translate3d(0, 0, 0)
+  }
+
+  .fade-leave {
+    opacity: 1;
+  }
+
+  .fade-leave-to {
+    opacity: 0;
   }
 </style>

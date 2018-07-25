@@ -1,6 +1,7 @@
 <template>
   <div>
-    <notification></notification>
+    <!--<notification></notification>-->
+    <button @click="showNotify">show notify</button>
     <span class="text">
       <router-view/>
     </span>
@@ -13,6 +14,13 @@
     },
     data () {
       return {}
+    },
+    methods: {
+      showNotify () {
+        this.$notify({
+          content: 'hah'
+        })
+      }
     }
   }
 </script>
